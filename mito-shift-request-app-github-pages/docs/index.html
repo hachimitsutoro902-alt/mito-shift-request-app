@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>水戸赤塚店 希望休フォーム</title>
+  <style>
+    :root {
+      --bg: #f5f7f8;
+      --panel: #fff;
+      --ink: #1f2933;
+      --muted: #66727f;
+      --line: #d7dee6;
+      --green: #0f766e;
+      --green-dark: #115e59;
+      --green-soft: #edf7f5;
+      --red: #b42318;
+      --disabled: #eef1f4;
+      --shadow: 0 12px 28px rgba(25, 35, 45, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+      letter-spacing: 0;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .top {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: end;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .sub {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(180px, 260px) minmax(220px, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    input, select, button {
+      font: inherit;
+    }
+
+    input, select {
+      width: 100%;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    button {
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    button.primary {
+      color: #fff;
+      background: var(--green);
+      border-color: var(--green);
+      font-weight: 700;
+    }
+
+    button.primary:hover { background: var(--green-dark); }
+    button:disabled { cursor: not-allowed; opacity: 0.55; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .counter {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      background: var(--green-soft);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .counter strong {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .meter {
+      height: 8px;
+      margin-top: 8px;
+      background: #d5ebe7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .meter span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: var(--green);
+      transition: width 160ms ease;
+    }
+
+    .panel-body { padding: 16px; }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .status.error { color: var(--red); font-weight: 700; }
+    .status.ok { color: var(--green-dark); font-weight: 700; }
+
+    .actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .schedule {
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      min-width: 740px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 8px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f9fafb;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    th:first-child, td:first-child { width: 70px; }
+    th:nth-child(2), td:nth-child(2) { width: 58px; }
+    th:nth-child(3), td:nth-child(3) { width: 58px; }
+    th:nth-child(7), td:nth-child(7) { width: 170px; text-align: left; }
+    td:last-child, th:last-child { border-right: 0; }
+    tr:last-child td { border-bottom: 0; }
+
+    .slot {
+      width: 100%;
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      padding: 5px 8px;
+      border-radius: 7px;
+      border: 1px solid #c9d3dc;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .slot.selectable:hover,
+    .slot.selected {
+      border-color: var(--green);
+      background: var(--green-soft);
+      color: var(--green-dark);
+    }
+
+    .slot.selected {
+      box-shadow: inset 0 0 0 2px var(--green);
+    }
+
+    .slot.muted {
+      background: var(--disabled);
+      color: #87919c;
+      font-weight: 500;
+    }
+
+    .slot.empty {
+      background: #fafafa;
+      color: #a0a8b0;
+      font-weight: 500;
+    }
+
+    .admin {
+      margin-top: 16px;
+    }
+
+    .admin-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .admin-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding: 9px 10px;
+      background: #f9fafb;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .top { display: block; }
+      .toolbar { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      main { padding: 12px; }
+      .panel-body { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <div>
+        <h1>水戸赤塚店 希望休フォーム</h1>
+        <div class="sub">担当ブロックをタップして休み希望を提出します。1人12ブロックまで。</div>
+      </div>
+      <button id="refreshSubmissions">提出一覧を更新</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="toolbar">
+      <div>
+        <label for="staffSelect">スタッフ</label>
+        <select id="staffSelect">
+          <option value="shoko">shoko</option>
+          <option value="rika">rika</option>
+        </select>
+      </div>
+      <div>
+        <label for="submitter">提出者名</label>
+        <input id="submitter" autocomplete="name" placeholder="例: shoko">
+      </div>
+      <button class="primary" id="submitRequest">送信</button>
+    </section>
+
+    <section class="grid">
+      <aside class="panel">
+        <div class="counter">
+          <div>
+            <div class="note">選択済みブロック</div>
+            <div class="meter"><span id="meter"></span></div>
+          </div>
+          <strong><span id="count">0</span>/12</strong>
+        </div>
+        <div class="panel-body">
+          <h2>提出内容</h2>
+          <div id="selectedList" class="note">まだ選択されていません。</div>
+          <div id="status" class="status"></div>
+          <div class="actions">
+            <button id="clear">選択をクリア</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="schedule">
+        <table>
+          <thead>
+            <tr>
+              <th>月</th>
+              <th>日</th>
+              <th>曜日</th>
+              <th>9:15〜13:00</th>
+              <th>13:00〜16:45</th>
+              <th>16:45〜20:30</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel admin">
+      <div class="panel-body">
+        <h2>提出一覧</h2>
+        <div id="submissionList" class="admin-list note">まだ読み込んでいません。</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script>
+    const maxBlocks = 12;
+    const timeBlocks = ["9:15〜13:00", "13:00〜16:45", "16:45〜20:30"];
+    const appConfig = window.SHIFT_REQUEST_CONFIG || {};
+    const isLocalServer = ["localhost", "127.0.0.1"].includes(location.hostname);
+    const shiftCsvUrl = appConfig.shiftCsvUrl || (isLocalServer ? "/api/shift" : "shift.csv");
+    const submitEndpoint = appConfig.submitEndpoint || (isLocalServer ? "/api/submit" : "");
+    const submissionsEndpoint = appConfig.submissionsEndpoint || (isLocalServer ? "/api/submissions" : "");
+    let rows = [];
+    let selections = {};
+
+    const els = {
+      staffSelect: document.querySelector("#staffSelect"),
+      submitter: document.querySelector("#submitter"),
+      submitRequest: document.querySelector("#submitRequest"),
+      clear: document.querySelector("#clear"),
+      scheduleBody: document.querySelector("#scheduleBody"),
+      count: document.querySelector("#count"),
+      meter: document.querySelector("#meter"),
+      selectedList: document.querySelector("#selectedList"),
+      status: document.querySelector("#status"),
+      refreshSubmissions: document.querySelector("#refreshSubmissions"),
+      submissionList: document.querySelector("#submissionList"),
+    };
+
+    function parseCsvLine(line) {
+      const cells = [];
+      let current = "";
+      let quoted = false;
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        const next = line[i + 1];
+        if (char === '"' && quoted && next === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          quoted = !quoted;
+        } else if (char === "," && !quoted) {
+          cells.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      cells.push(current);
+      return cells;
+    }
+
+    function normalizeStaff(value) {
+      const text = String(value || "").trim().replace(/[※＊*]+$/g, "").trim().toLowerCase();
+      if (text === "a") return "shoko";
+      if (text === "b") return "rika";
+      if (text === "c") return "";
+      return text;
+    }
+
+    function parseShiftCsv(text) {
+      const lines = text.replace(/^\uFEFF/, "").split(/\r?\n/).filter((line) => line.trim());
+      const headers = parseCsvLine(lines[0]);
+      return lines.slice(1).map((line) => {
+        const cells = parseCsvLine(line);
+        const row = {};
+        headers.forEach((header, index) => row[header || `col${index}`] = cells[index] || "");
+        return {
+          month: row["月"],
+          day: row["日"],
+          weekday: row["曜日"],
+          note: row["Unnamed: 6"] || row["メモ"] || "",
+          blocks: Object.fromEntries(timeBlocks.map((block) => [block, normalizeStaff(row[block])]))
+        };
+      });
+    }
+
+    function keyOf(row, block) {
+      return `${row.month}-${row.day}-${block}`;
+    }
+
+    function currentStaff() {
+      return els.staffSelect.value;
+    }
+
+    function selectedKeys() {
+      return selections[currentStaff()] || [];
+    }
+
+    function isSelected(key) {
+      return selectedKeys().includes(key);
+    }
+
+    function setStatus(message, kind = "") {
+      els.status.textContent = message;
+      els.status.className = `status ${kind}`.trim();
+    }
+
+    function toggleSelection(row, block) {
+      const key = keyOf(row, block);
+      const selected = selectedKeys();
+      if (isSelected(key)) {
+        selections[currentStaff()] = selected.filter((item) => item !== key);
+      } else {
+        if (selected.length >= maxBlocks) {
+          setStatus("12ブロックまで選択できます。", "error");
+          return;
+        }
+        selections[currentStaff()] = [...selected, key];
+      }
+      render();
+    }
+
+    function selectedRecords() {
+      const keys = new Set(selectedKeys());
+      const staff = currentStaff();
+      const records = [];
+      for (const row of rows) {
+        for (const block of timeBlocks) {
+          const key = keyOf(row, block);
+          if (keys.has(key)) {
+            records.push({
+              staff,
+              month: row.month,
+              day: row.day,
+              weekday: row.weekday,
+              block,
+              originalStaff: row.blocks[block],
+            });
+          }
+        }
+      }
+      return records;
+    }
+
+    function renderSummary() {
+      const records = selectedRecords();
+      els.count.textContent = records.length;
+      els.meter.style.width = `${Math.min(100, records.length / maxBlocks * 100)}%`;
+      if (!records.length) {
+        els.selectedList.textContent = "まだ選択されていません。";
+        return;
+      }
+      els.selectedList.innerHTML = records
+        .map((item) => `${item.month}/${item.day}(${item.weekday}) ${item.block}`)
+        .join("<br>");
+    }
+
+    function render() {
+      const staff = currentStaff();
+      els.submitter.value = els.submitter.value || staff;
+      els.scheduleBody.innerHTML = "";
+      for (const row of rows) {
+        const tr = document.createElement("tr");
+        [row.month, row.day, row.weekday].forEach((value) => {
+          const td = document.createElement("td");
+          td.textContent = value;
+          tr.appendChild(td);
+        });
+        for (const block of timeBlocks) {
+          const assigned = row.blocks[block];
+          const selectable = assigned === staff;
+          const key = keyOf(row, block);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "slot";
+          button.textContent = assigned || "空白";
+
+          if (!assigned) button.classList.add("empty");
+          if (assigned && !selectable) button.classList.add("muted");
+          if (selectable) {
+            button.classList.add("selectable");
+            button.addEventListener("click", () => toggleSelection(row, block));
+          } else {
+            button.disabled = true;
+          }
+          if (isSelected(key)) {
+            button.classList.add("selected");
+            button.textContent = `${assigned} 休`;
+          }
+
+          const td = document.createElement("td");
+          td.appendChild(button);
+          tr.appendChild(td);
+        }
+        const note = document.createElement("td");
+        note.className = "note";
+        note.textContent = row.note;
+        tr.appendChild(note);
+        els.scheduleBody.appendChild(tr);
+      }
+      renderSummary();
+    }
+
+    async function loadShift() {
+      const res = await fetch(shiftCsvUrl);
+      if (!res.ok) throw new Error("シフト原案を読み込めません。");
+      rows = parseShiftCsv(await res.text());
+      render();
+    }
+
+    async function submit() {
+      const requests = selectedRecords();
+      const submitter = els.submitter.value.trim();
+      if (!submitter) return setStatus("提出者名を入力してください。", "error");
+      if (!requests.length) return setStatus("休み希望を選択してください。", "error");
+      if (requests.length > maxBlocks) return setStatus("休み希望は12ブロックまでです。", "error");
+      if (!submitEndpoint) {
+        return setStatus("送信先URLが未設定です。管理者に確認してください。", "error");
+      }
+
+      els.submitRequest.disabled = true;
+      setStatus("送信しています。");
+      try {
+        const res = await fetch(submitEndpoint, {
+          method: "POST",
+          headers: { "content-type": submitEndpoint.includes("script.google.com") ? "text/plain;charset=utf-8" : "application/json" },
+          body: JSON.stringify({ submitter, staff: currentStaff(), requests }),
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || "送信できませんでした。");
+        selections[currentStaff()] = [];
+        render();
+        setStatus("送信しました。", "ok");
+        await loadSubmissions();
+      } catch (error) {
+        setStatus(error.message, "error");
+      } finally {
+        els.submitRequest.disabled = false;
+      }
+    }
+
+    async function loadSubmissions() {
+      if (!submissionsEndpoint) {
+        els.refreshSubmissions.style.display = "none";
+        els.submissionList.textContent = "提出内容は管理用スプレッドシートに保存されます。";
+        return;
+      }
+      const res = await fetch(submissionsEndpoint);
+      const data = await res.json();
+      if (!data.ok) {
+        els.submissionList.textContent = "提出一覧を読み込めません。";
+        return;
+      }
+      if (!data.submissions.length) {
+        els.submissionList.textContent = "提出はまだありません。";
+        return;
+      }
+      els.submissionList.innerHTML = "";
+      for (const item of data.submissions) {
+        const row = document.createElement("div");
+        row.className = "admin-row";
+        row.innerHTML = `<span>${item.submitter} / ${item.staff} / ${item.count}ブロック</span><span>${item.submittedAt}</span>`;
+        els.submissionList.appendChild(row);
+      }
+    }
+
+    els.staffSelect.addEventListener("change", () => {
+      els.submitter.value = els.staffSelect.value;
+      setStatus("");
+      render();
+    });
+
+    els.clear.addEventListener("click", () => {
+      selections[currentStaff()] = [];
+      setStatus("");
+      render();
+    });
+
+    els.submitRequest.addEventListener("click", submit);
+    els.refreshSubmissions.addEventListener("click", loadSubmissions);
+
+    loadShift().catch((error) => setStatus(error.message, "error"));
+    loadSubmissions();
+  </script>
+</body>
+</html>
